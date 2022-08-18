@@ -5,21 +5,21 @@ using System.IO;
 
 namespace RecipeBox.Models
 {
-  public class RecipeBoxContetxtFactory : IDesignTimeDbContextFactory<RecipeBoxContetxt>
+  public class RecipeBoxContextFactory : IDesignTimeDbContextFactory<RecipeBoxContext>
   {
 
-    RecipeBoxContetxt IDesignTimeDbContextFactory<RecipeBoxContetxt>.CreateDbContext(string[] args)
+    RecipeBoxContext IDesignTimeDbContextFactory<RecipeBoxContext>.CreateDbContext(string[] args)
     {
       IConfigurationRoot configuration = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json")
         .Build();
 
-      var builder = new DbContextOptionsBuilder<RecipeBoxContetxt>();
+      var builder = new DbContextOptionsBuilder<RecipeBoxContext>();
 
       builder.UseMySql(configuration["ConnectionStrings:DefaultConnection"], ServerVersion.AutoDetect(configuration["ConnectionStrings:DefaultConnection"]));
 
-      return new RecipeBoxContetxt(builder.Options);
+      return new RecipeBoxContext(builder.Options);
     }
   }
 }
