@@ -4,6 +4,11 @@ namespace RecipeBox.ViewModels
 {
     public class RegisterViewModel
     {
+      // [Required]
+      // [DataType(DataType.FirstName)]
+      // [Display(Name = "FirstName")]
+      // public string FirstName { get; set; }
+
       [Required]
       [EmailAddress]
       [Display(Name = "Email")]

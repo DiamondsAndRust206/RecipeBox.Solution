@@ -11,26 +11,33 @@ using System.Security.Claims;
 
 namespace RecipeBox.Controllers
 {
-  [Authorize]
+  // [Authorize]
   public class RecipesController : Controller
   {
     private readonly RecipeBoxContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public RecipesController(UserManager<ApplicationUser> userManager, RecipeBoxContext db)
+    // public RecipesController(UserManager<ApplicationUser> userManager, RecipeBoxContext db)
+    public RecipesController(RecipeBoxContext db)
     {
-      _userManager = userManager;
+      // _userManager = userManager;
       _db = db;
     }
 
-    public async Task<ActionResult> Index()
+    public ActionResult Index()
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var userRecipes = _db.Recipes.Where(entry => entry.User.Id == currentUser.Id).ToList();
-      return View(userRecipes);
+      return View(_db.Recipes.ToList());
     }
-
+    
+    // public async Task<ActionResult> Index()
+    // {
+    //   var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    //   var currentUser = await _userManager.FindByIdAsync(userId);
+    //   var userRecipes = _db.Recipes.Where(entry => entry.User.Id == currentUser.Id).ToList();
+    //   return View(userRecipes);
+    // }
+    
+    [Authorize]
     public ActionResult Create()
     {
       ViewBag.CategoryId = new SelectList(_db.Categories, "CategoryId", "Name");
@@ -53,6 +60,7 @@ namespace RecipeBox.Controllers
       return RedirectToAction("Index");
     }
 
+    [Authorize]
     public ActionResult Details(int id)
     {
       var thisRecipe = _db.Recipes
@@ -62,6 +70,7 @@ namespace RecipeBox.Controllers
         return View(thisRecipe);
     }
 
+    [Authorize]
     public ActionResult Edit(int id)
     {
       var thisRecipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);
@@ -99,6 +108,7 @@ namespace RecipeBox.Controllers
       return RedirectToAction("Index");
     }
 
+    [Authorize]
     public ActionResult Delete(int id)
     {
       var thisRecipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);
@@ -114,13 +124,13 @@ namespace RecipeBox.Controllers
       return RedirectToAction("Index");
     }
 
-    [HttpPost]
-    public ActionResult DeleteCategory(int joinId)
-    {
-      var joinEntry = _db.RecipeCategory.FirstOrDefault(entry => entry.RecipeCategoryId == joinId);
-      _db.RecipeCategory.Remove(joinEntry);
-      _db.SaveChanges();
-      return RedirectToAction("Index");
-    }
+    // [HttpPost]
+    // public ActionResult DeleteCategory(int joinId)
+    // {
+    //   var joinEntry = _db.RecipeCategory.FirstOrDefault(entry => entry.RecipeCategoryId == joinId);
+    //   _db.RecipeCategory.Remove(joinEntry);
+    //   _db.SaveChanges();
+    //   return RedirectToAction("Index");
+    // }
   }
 }
