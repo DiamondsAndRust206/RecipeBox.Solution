@@ -2,7 +2,7 @@
 
 #### By Patty Rose, Megan McKissack, Louie Knolle, Ryan Gibson
 
-![Louie](https://cdn.discordapp.com/attachments/1016164260520411216/1021167237731729439/headshot1.jpg)
+![Louie](/img/louie.jpg)
 
 #### A web application map api built to create hiking trails by placing markers on the map.
 
